@@ -18,5 +18,5 @@ $git merge develop --no-ff -m 'merge develop'
 result=$?
 
 if [ $result == 0 ];then
-    echo 1
+    $git push origin master
 fi
