@@ -45,7 +45,7 @@ class Home extends Base
 EOF;
         $aConfig = c\Config::get('repos');
         $aData = [
-            'title' => 'Just for Merge',
+            'title' => 'Just Merge',
             'output' => $output,
             'repos' => $aConfig['data']
         ];
