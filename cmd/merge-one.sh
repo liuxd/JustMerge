@@ -86,7 +86,7 @@ repo_path=$code_path$repo
 
 if [ ! -d $repo_path ];then
     _cecho "No such folder : $repo_path" error
-    exit
+    exit 1
 fi
 
 _merge $repo_path $git
