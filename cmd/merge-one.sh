@@ -74,21 +74,27 @@ function _merge {
 
 current_path=$(_current_path)
 . $current_path/config.sh
-repo=$1
 
-if [ ! -n $2 ];then
+if [ ! $1 ];then
+    _cecho 'Repository name is needed.' error
+    exit 1
+fi
+
+if [ ! $2 ];then
     is_cmd="cmd"
 else
     is_cmd=$2
 fi
 
+repo=$1
 repo_path=$code_path$repo
 
 if [ ! -d $repo_path ];then
     _cecho "No such folder : $repo_path" error
-    exit 1
+    exit 2
 fi
 
+_cecho "Handle Repository: " $repo
 _merge $repo_path $git
 
 # end of this file
