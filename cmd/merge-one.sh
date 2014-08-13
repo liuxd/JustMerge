@@ -9,6 +9,8 @@ repo=$1
 git=/usr/local/git/bin/git
 
 cd $code_path$repo
+$git clean -df
+$git reset --hard
 $git checkout master
 $git pull origin master
 $git checkout develop
