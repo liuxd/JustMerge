@@ -24,7 +24,7 @@ function _current_path {
 # Demo:
 #     _cecho 'hello' error
 function _cecho {
-    if [[ ! -n $is_cmd && $is_cmd -gt 0 ]];then
+    if [ "$is_cmd" = "log" ];then
         echo $1
         return
     fi
@@ -75,7 +75,12 @@ function _merge {
 current_path=$(_current_path)
 . $current_path/config.sh
 repo=$1
-is_cmd=$2
+
+if [ ! -n $2 ];then
+    is_cmd="cmd"
+else
+    is_cmd=$2
+fi
 
 repo_path=$code_path$repo
 
