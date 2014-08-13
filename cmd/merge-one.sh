@@ -59,7 +59,7 @@ git=/usr/local/git/bin/git
 repo_path=$code_path$repo
 
 if [ ! -d $repo_path ];then
-    echo No such folder : $repo_path
+    _cecho "No such folder : $repo_path" error
     exit
 fi
 
