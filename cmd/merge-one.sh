@@ -67,7 +67,7 @@ function _merge {
 
     result=$?
 
-    if [ $result == 0 ];then
+    if [ $result -eq 0 ];then
         $2 push origin master
     fi   
 }
