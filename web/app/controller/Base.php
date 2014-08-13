@@ -8,9 +8,6 @@ class Base extends c\Controller
 {
 	public function handle()
 	{
-		$cfg = c\Config::get('db');
-		$result = u\DB::getInstance($cfg['data']['dsn']);
-
 		return parent::handle();
 	}
 }

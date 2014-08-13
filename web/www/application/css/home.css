@@ -173,3 +173,8 @@ body {
 .btn-lg {
     width: 100%;
 }
+
+.repo {
+    width: 19%;
+    margin-bottom: 5px;
+}

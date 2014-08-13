@@ -14,15 +14,15 @@
 
             <div class="inner cover">
                 <pre id="code-output"><?=$output;?></pre>
-                <label class="checkbox-inline">
-                    <input type="checkbox" id="inlineCheckbox1" value="option1"> app-hf-xf
+
+                <?php foreach ($repos as $repo):?>
+                <span>
+                <label class="checkbox-inline repo">
+                <input type="checkbox" value="<?=$repo;?>"><?=$repo;?>
                 </label>
-                <label class="checkbox-inline">
-                    <input type="checkbox" id="inlineCheckbox2" value="option2"> app-hf-manage
-                </label>
-                <label class="checkbox-inline">
-                    <input type="checkbox" id="inlineCheckbox3" value="option3"> 3
-                </label>
+                </span>
+                <?php endforeach;?>
+
                 <div>
                     <button class="btn-lg btn-success" />Merge</button>
                 </div>

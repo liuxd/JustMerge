@@ -1,5 +1,6 @@
 <?php
 namespace controller;
+use core as c;
 
 class Home extends Base
 {
@@ -42,9 +43,11 @@ class Home extends Base
 [Wed Aug 13 16:39:33 2014] 127.0.0.1:58152 [200]: /www/application/css/home.css
 [Wed Aug 13 16:39:34 2014] 127.0.0.1:58153 [200]: /www/application/img/favicon.ico
 EOF;
+        $aConfig = c\Config::get('repos');
         $aData = [
             'title' => 'Just for Merge',
-            'output' => $output
+            'output' => $output,
+            'repos' => $aConfig['data']
         ];
 
         return $aData;
@@ -54,6 +57,7 @@ EOF;
     {
         return 'Home';
     }
+
 }
 
 # end of this file
