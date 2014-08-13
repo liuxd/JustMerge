@@ -4,10 +4,31 @@
 # Demo:
 #     merge-one.sh app-render
 
+# Get this script real path.
+function _current_path {
+    SOURCE=${BASH_SOURCE[0]}
+    DIR=$( dirname "$SOURCE" )
+
+    while [ -h "$SOURCE" ]
+    do
+        SOURCE=$(readlink "$SOURCE")
+        [[ $SOURCE != /* ]] && SOURCE="$DIR/$SOURCE"
+        DIR=$( cd -P "$( dirname "$SOURCE"  )" && pwd )
+    done
+
+    DIR=$( cd -P "$( dirname "$SOURCE" )" && pwd )
+    echo $DIR
+}
+
 # Colorful printing.
 # Demo:
 #     _cecho 'hello' error
 function _cecho {
+    if [[ ! -n $is_cmd && $is_cmd -gt 0 ]];then
+        echo $1
+        return
+    fi
+
     case $2 in
         info )
             color=33;;
@@ -51,10 +72,10 @@ function _merge {
     fi   
 }
 
-#code_path=/Users/liuxd/Documents/git.ipo.com/hf-code/
-code_path=/Users/liuxd/Documents/git.ipo.com/
+current_path=$(_current_path)
+. $current_path/config.sh
 repo=$1
-git=/usr/local/git/bin/git
+is_cmd=$2
 
 repo_path=$code_path$repo
 
