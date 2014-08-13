@@ -22,6 +22,12 @@ function _cecho {
     echo -e "\033["$color"m$1\033[0m"
 }
 
+# Echo and run.
+function _ear {
+    _cecho "$@" success
+    $@
+}
+
 # Merge develop to master.
 # @param string the path of repository.
 # @param string the path of git.
@@ -29,29 +35,14 @@ function _cecho {
 #     _merge /home/www/code/hf-index/ /bin/git
 function _merge {
     cd $1
-    _cecho "$2 clean -df" success
-    $2 clean -df
-
-    _cecho "$2 reset --hard" success
-    $2 reset --hard
-
-    _cecho "$2 checkout master" success
-    $2 checkout master
-
-    _cecho "$2 pull origin master" success
-    $2 pull origin master
-
-    _cecho "$2 checkout develop" success
-    $2 checkout develop
-
-    _cecho "$2 pull origin develop" success
-    $2 pull origin develop
-
-    _cecho "$2 checkout master" success
-    $2 checkout master
-
-    _cecho "$2 merge develop --no-ff -m 'merge develop'" success
-    $2 merge develop --no-ff -m 'merge develop'
+    _ear "$2 clean -df"
+    _ear "$2 reset --hard"
+    _ear "$2 checkout master"
+    _ear "$2 pull origin master"
+    _ear "$2 checkout develop"
+    _ear "$2 pull origin develop"
+    _ear "$2 checkout master"
+    _ear "$2 merge develop --no-ff -m 'merge develop'"
 
     result=$?
 
