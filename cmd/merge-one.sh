@@ -118,7 +118,7 @@ if [ ! -d $repo_path ];then
     exit $errcode_no_such_folder
 fi
 
-_cecho "Handle Repository: " $repo
+_cecho "Handle Repository: $repo" 
 _lock
 _merge $repo_path $git
 _unlock
