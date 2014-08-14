@@ -60,10 +60,10 @@ function _merge {
     _ear "$2 reset --hard"
     _ear "$2 checkout master"
     _ear "$2 pull origin master"
-    _ear "$2 checkout develop"
-    _ear "$2 pull origin develop"
+    _ear "$2 checkout $need_merge_branch"
+    _ear "$2 pull origin $need_merge_branch"
     _ear "$2 checkout master"
-    _ear "$2 merge develop --no-ff -m 'merge develop'"
+    _ear "$2 merge $need_merge_branch --no-ff -m 'merge $need_merge_branch'"
 
     result=$?
 
