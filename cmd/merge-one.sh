@@ -69,6 +69,9 @@ function _merge {
 
     if [ $result -eq 0 ];then
         $2 push origin master
+    else
+        _cecho "Merging failed" error
+        exit $errcode_merge_failed
     fi
 }
 
@@ -93,6 +96,7 @@ function _check_lock {
 errcode_need_repo=1
 errcode_no_such_folder=2
 errcode_locked=3
+errcode_merge_failed=4
 
 current_path=$(_current_path)
 . $current_path/config.sh
