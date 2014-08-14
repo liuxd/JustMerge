@@ -69,15 +69,39 @@ function _merge {
 
     if [ $result -eq 0 ];then
         $2 push origin master
-    fi   
+    fi
 }
+
+# Add lock.
+function _lock {
+    echo 1 > $lock_file
+}
+
+# Clear lock.
+function _unlock {
+    rm -f $lock_file
+}
+
+# Check lock.
+function _check_lock {
+    if [ -f "$lock_file" ];then
+        _cecho 'Now locking!' error
+        exit $errcode_locked
+    fi
+}
+
+errcode_need_repo=1
+errcode_no_such_folder=2
+errcode_locked=3
 
 current_path=$(_current_path)
 . $current_path/config.sh
 
+_check_lock
+
 if [ ! $1 ];then
     _cecho 'Repository name is needed.' error
-    exit 1
+    exit $errcode_need_repo
 fi
 
 if [ ! $2 ];then
@@ -91,10 +115,12 @@ repo_path=$code_path$repo
 
 if [ ! -d $repo_path ];then
     _cecho "No such folder : $repo_path" error
-    exit 2
+    exit $errcode_no_such_folder
 fi
 
 _cecho "Handle Repository: " $repo
+_lock
 _merge $repo_path $git
+_unlock
 
 # end of this file
