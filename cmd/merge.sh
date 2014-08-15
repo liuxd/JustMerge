@@ -65,8 +65,8 @@ function _merge {
     _ear "$2 checkout master"
 
     msg="merge $need_merge_branch"
-    $2 merge $need_merge_branch --no-ff -m "'$msg'"
     _cecho "$2 merge $need_merge_branch --no-ff -m '$msg'" success
+    $2 merge $need_merge_branch --no-ff -m "'$msg'"
 
     result=$?
 
@@ -126,7 +126,7 @@ if [ ! -d $repo_path ];then
     exit $errcode_no_such_folder
 fi
 
-_cecho "Handle Repository: $repo" 
+_cecho "Handle Repository: $repo"
 _lock
 _merge $repo_path $git
 _unlock
