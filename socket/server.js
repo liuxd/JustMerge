@@ -5,6 +5,10 @@ var http = require('http').Server(app);
 var io = require('socket.io')(http);
 var fs = require('fs');
 var channel = 'cli';
+var Tail = require('tail').Tail;
+var tail = new Tail('/tmp/test.log');
+var child_process = require('child_process');
+var cli = '/Users/liuxd/Documents/scripts/test.sh > /tmp/test.log';
 
 app.get('/', function(req, res) {
     var str = fs.realpathSync('.');
@@ -13,8 +17,11 @@ app.get('/', function(req, res) {
 
 io.on('connection', function(socket) {
     socket.on(channel, function(data) {
-        socket.emit(channel, data);
-        console.log(data);
+        child_process.exec(cli);
+
+        tail.on("line", function(data) {
+            socket.emit(channel, {msg: data.toString('utf-8')});
+        });
     });
 });
 

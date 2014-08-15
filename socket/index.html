@@ -31,6 +31,7 @@
                 return false;
             });
             socket.on(channel, function(msg) {
+                console.log(msg);
                 $('#messages').append($('<li>').text(msg.msg));
             });
         </script>
