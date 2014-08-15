@@ -10,6 +10,7 @@
   "author": "liuxd",
   "license": "ISC",
   "dependencies": {
-      "socket.io": "~1.0.0"
+    "socket.io": "~1.0.0",
+    "express": "~4.8.3"
   }
 }
