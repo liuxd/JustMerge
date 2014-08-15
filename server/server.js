@@ -1,20 +1,24 @@
 #!/usr/bin/env node
 
-var async = require('async');
+var express = require('express');
 var app = require('express')();
 var http = require('http').Server(app);
 var io = require('socket.io')(http);
 var fs = require('fs');
-var channel = 'cli';
 var Tail = require('tail').Tail;
-var tail = new Tail('/tmp/test.log');
 var child_process = require('child_process');
+
+var channel = 'cli';
+var tail = new Tail('/tmp/test.log');
 var cli = 'ls -alh > /tmp/test.log';
+
+app.use("/www", express.static(__dirname + '/www'));
 
 app.get('/', function(req, res) {
     var str = fs.realpathSync('.');
     res.sendFile(str + '/index.html');
 });
+
 
 io.on('connection', function(socket) {
     socket.on(channel, function(data) {
