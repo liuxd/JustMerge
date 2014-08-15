@@ -23,13 +23,14 @@
         <script src="http://code.jquery.com/jquery-1.11.1.js"></script>
         <script>
             var socket = io();
+            var channel = 'cli';
             $('#send').click(function() {
                 var msg = $('#m').val();
-                socket.emit('chat', {msg: msg});
+                socket.emit(channel, {msg: msg});
                 $('#m').val('');
                 return false;
             });
-            socket.on('chat', function(msg) {
+            socket.on(channel, function(msg) {
                 $('#messages').append($('<li>').text(msg.msg));
             });
         </script>
