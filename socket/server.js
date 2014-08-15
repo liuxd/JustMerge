@@ -1,5 +1,6 @@
 #!/usr/bin/env node
 
+var async = require('async');
 var app = require('express')();
 var http = require('http').Server(app);
 var io = require('socket.io')(http);
@@ -8,7 +9,7 @@ var channel = 'cli';
 var Tail = require('tail').Tail;
 var tail = new Tail('/tmp/test.log');
 var child_process = require('child_process');
-var cli = '/Users/liuxd/Documents/scripts/test.sh > /tmp/test.log';
+var cli = 'ls -alh > /tmp/test.log';
 
 app.get('/', function(req, res) {
     var str = fs.realpathSync('.');
