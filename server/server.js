@@ -1,25 +1,28 @@
 #!/usr/bin/env node
 
+// for dependence.
 var express = require('express');
-var app = require('express')();
 var http = require('http').Server(app);
 var io = require('socket.io')(http);
 var fs = require('fs');
 var Tail = require('tail').Tail;
 var child_process = require('child_process');
 
+// for business.
+var app = express();
 var channel = 'cli';
-var tail = new Tail('/tmp/test.log');
-var cli = 'ls -alh > /tmp/test.log';
+var output_log = '/tmp/just-for-merge.log';
+var tail = new Tail(output_log);
+var cli = 'ls -alh > ' + output_log;
 
+// for web server.
 app.use("/www", express.static(__dirname + '/www'));
-
 app.get('/', function(req, res) {
     var str = fs.realpathSync('.');
     res.sendFile(str + '/index.html');
 });
 
-
+// for websocket.
 io.on('connection', function(socket) {
     socket.on(channel, function(data) {
         child_process.exec(cli);
