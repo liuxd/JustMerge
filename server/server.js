@@ -1,6 +1,5 @@
 #!/usr/bin/env node
 
-// for dependence.
 var express = require('express');
 var app = express();
 var http = require('http').Server(app);
@@ -9,33 +8,27 @@ var fs = require('fs');
 var Tail = require('tail').Tail;
 var child_process = require('child_process');
 
-// for business.
 var channel = 'cli';
-var output_log = '/tmp/just-for-merge.log';
-var cli = 'ls -alh > ' + output_log;
+var tail = new Tail('/tmp/test.log');
+var cli = 'ls -alh > /tmp/test.log';
 var current_path = fs.realpathSync('.');
+var port = 3000;
 
-// for public resources.
 app.use("/www", express.static(__dirname + '/www'));
-
-// page : home page.
 app.get('/', function(req, res) {
-    res.sendFile(current_path + '/index.html');
+    var str = fs.realpathSync('.');
+    res.sendFile(str + '/index.html');
 });
 
-// ajax : get repository list in json.
-app.get('/get_repo_list', function(req, res){
-    fs.readFile(current_path + '/config.json', "utf8", function(err, data){
+app.get('/get_repo_list', function(req, res) {
+    fs.readFile(current_path + '/config.json', "utf8", function(err, data) {
         res.send(data);
     });
 });
 
-// for websocket.
 io.on('connection', function(socket) {
     socket.on(channel, function(data) {
-        console.log(data);
         child_process.exec(cli);
-        var tail = new Tail(output_log);
 
         tail.on("line", function(data) {
             socket.emit(channel, {msg: data.toString('utf-8')});
@@ -43,7 +36,6 @@ io.on('connection', function(socket) {
     });
 });
 
-var port = 3000;
-app.listen(port, function() {
+http.listen(port, function() {
     console.log('listening on *:' + port);
 });
