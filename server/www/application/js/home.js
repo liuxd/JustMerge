@@ -1,6 +1,7 @@
 (function() {
     var socket = io();
     var channel = 'cli';
+    var terminal = $('#code-output');
 
     // Show repository list.
     $.get('/get_repo_list', function(data, status) {
@@ -23,13 +24,17 @@
             repos.push($(this).val());
         });
 
-        socket.emit(channel, {msg: repos.join(',')});
+        if (repos) {
+            var msg = repos.join(',');
+            socket.emit(channel, {msg: msg});
+        }
+
         return false;
     });
 
     // Use socket.
     socket.on(channel, function(msg) {
-        console.log(msg);
+        $('<div>' + msg.msg + '</div>').appendTo(terminal);
     });
 
 })();
