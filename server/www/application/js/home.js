@@ -29,7 +29,7 @@
             socket.emit(channel, {msg: msg});
         }
 
-        $(this).prop('disabled', disabled);
+        $("#merge").prop("disabled", "disabled");
         return false;
     });
 
