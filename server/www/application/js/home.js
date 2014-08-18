@@ -29,12 +29,13 @@
             socket.emit(channel, {msg: msg});
         }
 
+        $(this).prop('disabled', disabled);
         return false;
     });
 
     // Use socket.
     socket.on(channel, function(msg) {
         $('<div>' + msg.msg + '</div>').appendTo(terminal);
+        terminal.scrollTop(terminal[0].scrollHeight );
     });
-
 })();

@@ -10,7 +10,7 @@ var child_process = require('child_process');
 
 var channel = 'cli';
 var tail = new Tail('/tmp/test.log');
-var cli = 'tree -L 3 > /tmp/test.log';
+var cli = 'ls -alh > /tmp/test.log';
 var current_path = fs.realpathSync('.');
 var port = 3000;
 
