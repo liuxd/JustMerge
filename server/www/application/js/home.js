@@ -1,17 +1,8 @@
 (function() {
     var socket = io();
     var channel = 'cli';
-    $('#send').click(function() {
-        var msg = $('#m').val();
-        socket.emit(channel, {msg: msg});
-        $('#m').val('');
-        return false;
-    });
-    socket.on(channel, function(msg) {
-        console.log(msg);
-        $('#messages').append($('<li>').text(msg.msg));
-    });
 
+    // Show repository list.
     $.get('/get_repo_list', function(data, status) {
         if (status === 'success') {
             var repos = eval('(' + data + ')').repos;
@@ -19,9 +10,26 @@
 
             for (i in repos) {
                 var repo = repos[i];
-                var html = "<span><label class='checkbox-inline repo'><input type='checkbox' value='" + repo + "'>" + repo + "</label></span>";
+                var html = "<span><label class='checkbox-inline repo'><input name='repo' type='checkbox' value='" + repo + "'>" + repo + "</label></span>";
                 $(html).appendTo(repo_container);
             }
         }
     });
+
+    // Send command message.
+    $('#merge').click(function() {
+        var repos = [];
+        $("input[name='repo']:checked:checked").each(function() {
+            repos.push($(this).val());
+        });
+
+        socket.emit(channel, {msg: repos.join(',')});
+        return false;
+    });
+
+    // Use socket.
+    socket.on(channel, function(msg) {
+        console.log(msg);
+    });
+
 })();

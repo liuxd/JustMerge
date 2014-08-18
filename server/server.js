@@ -33,6 +33,7 @@ app.get('/get_repo_list', function(req, res){
 // for websocket.
 io.on('connection', function(socket) {
     socket.on(channel, function(data) {
+        console.log(data);
         child_process.exec(cli);
         var tail = new Tail(output_log);
 
