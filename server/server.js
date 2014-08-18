@@ -9,10 +9,12 @@ var Tail = require('tail').Tail;
 var child_process = require('child_process');
 
 var channel = 'cli';
-var tail = new Tail('/tmp/test.log');
-var cli = 'ls -alh > /tmp/test.log';
+var log_file = '/tmp/test.log';
+var tail = new Tail(log_file);
 var current_path = fs.realpathSync('.');
 var port = 3000;
+
+var cli = '/Users/liuxd/Documents/git.ipo.com/just-for-merge/cmd/test.sh > ' + log_file;
 
 app.use("/www", express.static(__dirname + '/www'));
 app.get('/', function(req, res) {
