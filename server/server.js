@@ -12,7 +12,6 @@ var child_process = require('child_process');
 var app = express();
 var channel = 'cli';
 var output_log = '/tmp/just-for-merge.log';
-var tail = new Tail(output_log);
 var cli = 'ls -alh > ' + output_log;
 
 // for web server.
@@ -26,6 +25,7 @@ app.get('/', function(req, res) {
 io.on('connection', function(socket) {
     socket.on(channel, function(data) {
         child_process.exec(cli);
+        var tail = new Tail(output_log);
 
         tail.on("line", function(data) {
             socket.emit(channel, {msg: data.toString('utf-8')});
