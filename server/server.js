@@ -13,12 +13,21 @@ var app = express();
 var channel = 'cli';
 var output_log = '/tmp/just-for-merge.log';
 var cli = 'ls -alh > ' + output_log;
+var current_path = fs.realpathSync('.');
 
-// for web server.
+// for public resources.
 app.use("/www", express.static(__dirname + '/www'));
+
+// page : home page.
 app.get('/', function(req, res) {
-    var str = fs.realpathSync('.');
-    res.sendFile(str + '/index.html');
+    res.sendFile(current_path + '/index.html');
+});
+
+// ajax : get repository list in json.
+app.get('/get_repo_list', function(req, res){
+    fs.readFile(current_path + '/config.json', "utf8", function(err, data){
+        res.send(data);
+    });
 });
 
 // for websocket.

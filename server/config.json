@@ -1,0 +1,25 @@
+{
+"repos" : [
+    "app-hf-api",
+    "app-hf-base",
+    "app-hf-esf",
+    "app-hf-hgj",
+    "app-hf-hkagent",
+    "app-hf-manage",
+    "app-hf-member",
+    "app-hf-paycenter",
+    "app-hf-permission",
+    "app-hf-resource",
+    "app-hf-steward",
+    "app-hf-www",
+    "app-hf-xf",
+    "app-hf-ypz",
+    "app-hf-zf",
+    "app-render",
+    "app-service",
+    "app-trade-base",
+    "app-trade-hfb",
+    "app-hf-bis",
+    "system"
+]
+}
