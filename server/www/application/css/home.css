@@ -158,6 +158,9 @@ body {
     height: 300px;
     max-height: 300px;
     overflow-y: auto;
+    border: solid white 2px;
+    padding: 10px;
+    -webkit-border-radius: 10px;
 }
 
 .btn-lg {
@@ -166,5 +169,5 @@ body {
 
 .repo {
     width: 19%;
-    margin-bottom: 5px;
+    margin: 5px 0px 5px 5px;
 }
