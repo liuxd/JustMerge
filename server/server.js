@@ -2,6 +2,7 @@
 
 // for dependence.
 var express = require('express');
+var app = express();
 var http = require('http').Server(app);
 var io = require('socket.io')(http);
 var fs = require('fs');
@@ -9,7 +10,6 @@ var Tail = require('tail').Tail;
 var child_process = require('child_process');
 
 // for business.
-var app = express();
 var channel = 'cli';
 var output_log = '/tmp/just-for-merge.log';
 var cli = 'ls -alh > ' + output_log;
