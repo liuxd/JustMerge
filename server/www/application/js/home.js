@@ -24,18 +24,20 @@
             repos.push($(this).val());
         });
 
-        if (repos) {
+        if (repos.length > 0) {
             var msg = repos.join(' ');
             socket.emit(channel, {msg: msg});
+            $("#merge").prop("disabled", "disabled");
+        } else {
+            alert('Choose your repositories!');
         }
 
-        $("#merge").prop("disabled", "disabled");
         return false;
     });
 
     // Use socket.
     socket.on(channel, function(msg) {
         $('<div>' + msg.msg + '</div>').appendTo(terminal);
-        terminal.scrollTop(terminal[0].scrollHeight );
+        terminal.scrollTop(terminal[0].scrollHeight);
     });
 })();
