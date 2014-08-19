@@ -7,7 +7,8 @@
 
 ### Dependence
 
-Only `Node.js`
++ [Node.js](http://nodejs.org/)
++ [Merge.sh](https://github.com/liuxd/script-box/tree/master/Shell/merge)
 
 ### Screen Shot
 ![merge demo](merge.gif)
