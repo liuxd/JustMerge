@@ -25,7 +25,7 @@
         });
 
         if (repos) {
-            var msg = repos.join(',');
+            var msg = repos.join(' ');
             socket.emit(channel, {msg: msg});
         }
 
