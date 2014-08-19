@@ -6,7 +6,7 @@
     // Show repository list.
     $.get('/get_repo_list', function(data, status) {
         if (status === 'success') {
-            var repos = eval('(' + data + ')').repos;
+            var repos = eval('(' + data + ')').repos.sort();
             var repo_container = $('#repo_list');
 
             for (i in repos) {
