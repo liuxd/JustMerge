@@ -32,7 +32,7 @@ io.on('connection', function(socket) {
         fs.readFile(current_path + '/config.json', "utf8", function(err, cfg) {
             var cli = eval('(' + cfg + ')').command + ' "' + data.msg + '" log  > ' + log_file;
             console.log(cli);
-//            child_process.exec(cli);
+            child_process.exec(cli);
         });
 
         tail.on("line", function(data) {
