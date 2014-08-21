@@ -104,8 +104,13 @@ body {
     padding: 10px;
     -webkit-border-radius: 10px;
 }
-.btn-lg {
-    width: 100%;
+#merge, #branch {
+    width: 45%;
+    margin: 5px;
+    float: left;
+}
+#merge {
+    width: 100px;
 }
 .repo {
     width: 19%;
