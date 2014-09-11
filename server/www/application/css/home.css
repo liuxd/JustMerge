@@ -116,3 +116,13 @@ body {
     width: 19%;
     margin: 5px 0px 5px 5px;
 }
+
+.msg_warning {
+    color: red;
+    font-weight: bolder;
+}
+
+.msg_success {
+    color: green;
+    font-weight: bolder;
+}
