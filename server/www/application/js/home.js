@@ -25,8 +25,9 @@
         });
 
         if (repos.length > 0) {
-            var msg = repos.join(' ');
-            socket.emit(channel, {msg: msg});
+            var repolist = repos.join(' ');
+            var branch = $("#branch").val();
+            socket.emit(channel, {repolist: repolist, branch: branch});
             $("#merge").prop("disabled", "disabled");
         } else {
             alert('Choose your repositories!');
@@ -37,7 +38,17 @@
 
     // Use socket.
     socket.on(channel, function(msg) {
-        $('<div>' + msg.msg + '</div>').appendTo(terminal);
+        var classname = '';
+
+        if (msg.msg === 'Merging failed') {
+            classname = 'msg_warning';
+        }
+
+        if (msg.msg === 'Finished!') {
+            classname = 'msg_success';
+        }
+
+        $('<div class="' + classname + '" >' + msg.msg + '</div>').appendTo(terminal);
         terminal.scrollTop(terminal[0].scrollHeight);
     });
 })();
