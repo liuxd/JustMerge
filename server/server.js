@@ -30,7 +30,7 @@ app.get('/get_repo_list', function(req, res) {
 io.on('connection', function(socket) {
     socket.on(channel, function(data) {
         fs.readFile(current_path + '/config.json', "utf8", function(err, cfg) {
-            var cli = eval('(' + cfg + ')').command + ' "' + data.msg + '" log  > ' + log_file;
+            var cli = eval('(' + cfg + ')').command + ' "' + data.repolist + '" ' + data.branch + ' log  > ' + log_file;
             console.log(cli);
             child_process.exec(cli);
         });

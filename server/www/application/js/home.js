@@ -25,8 +25,9 @@
         });
 
         if (repos.length > 0) {
-            var msg = repos.join(' ');
-            socket.emit(channel, {msg: msg});
+            var repolist = repos.join(' ');
+            var branch = $("#branch").val();
+            socket.emit(channel, {repolist: repolist, branch: branch});
             $("#merge").prop("disabled", "disabled");
         } else {
             alert('Choose your repositories!');
