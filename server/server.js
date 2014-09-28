@@ -7,12 +7,18 @@ var io = require('socket.io')(http);
 var fs = require('fs');
 var Tail = require('tail').Tail;
 var child_process = require('child_process');
-var current_path = fs.realpathSync('.');
 var channel = 'cli';
+var current_path = fs.realpathSync('.');
+var config_file = current_path + '/config.json';
+
+if (fs.existsSync('/tmp/jm.json')) {
+    config_file = '/tmp/jm.json';
+}
 
 var port = 3000;
-var log_file = '/tmp/merge.log';
 
+// handle log file.
+var log_file = '/tmp/merge.log';
 var r = fs.existsSync(log_file);
 
 if (!r) {
@@ -29,14 +35,14 @@ app.get('/', function(req, res) {
 });
 
 app.get('/get_repo_list', function(req, res) {
-    fs.readFile(current_path + '/config.json', "utf8", function(err, data) {
+    fs.readFile(config_file, "utf8", function(err, data) {
         res.send(data);
     });
 });
 
 io.on('connection', function(socket) {
     socket.on(channel, function(data) {
-        fs.readFile(current_path + '/config.json', "utf8", function(err, cfg) {
+        fs.readFile(config_file, "utf8", function(err, cfg) {
             var cli = eval('(' + cfg + ')').command + ' "' + data.repolist + '" ' + data.branch + ' log  > ' + log_file;
             console.log(cli);
             child_process.exec(cli);
