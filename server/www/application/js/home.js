@@ -6,10 +6,11 @@
     // Show repository list.
     $.get('/get_repo_list', function(data, status) {
         if (status === 'success') {
-            var repos = eval('(' + data + ')').repos.sort();
+            var repos = data.split("\n");
             var repo_container = $('#repo_list');
 
             for (i in repos) {
+                if (repos[i].length === 0) continue;
                 var repo = repos[i];
                 var html = "<span><label class='checkbox-inline repo'><input name='repo' type='checkbox' value='" + repo + "'>" + repo + "</label></span>";
                 $(html).appendTo(repo_container);

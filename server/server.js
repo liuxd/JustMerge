@@ -36,7 +36,10 @@ app.get('/', function(req, res) {
 
 app.get('/get_repo_list', function(req, res) {
     fs.readFile(config_file, "utf8", function(err, data) {
-        res.send(data);
+        var code_path = eval('(' + data + ')').code_path
+        child_process.exec('ls ' + code_path, function(err, stdout, stderr){
+            res.send(stdout);
+        });
     });
 });
 
