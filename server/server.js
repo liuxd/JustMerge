@@ -12,6 +12,13 @@ var channel = 'cli';
 
 var port = 3000;
 var log_file = '/tmp/merge.log';
+
+var r = fs.existsSync(log_file);
+
+if (!r) {
+    fs.appendFile(log_file, '');
+}
+
 var tail = new Tail(log_file);
 
 app.use("/www", express.static(__dirname + '/www'));
