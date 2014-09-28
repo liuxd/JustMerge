@@ -3,6 +3,10 @@
     var channel = 'cli';
     var terminal = $('#code-output');
 
+    $("#branch").focus(function(){
+        $(this).val("");
+    });
+
     // Show repository list.
     $.get('/get_repo_list', function(data, status) {
         if (status === 'success') {
