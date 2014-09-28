@@ -10,6 +10,17 @@ var child_process = require('child_process');
 var channel = 'cli';
 var port = 3000;
 
+// Set log file.
+var log_file = '/tmp/merge.log';
+var r = fs.existsSync(log_file);
+
+if (!r) {
+    fs.appendFile(log_file, '');
+}
+
+var tail = new Tail(log_file);
+
+// Set config file.
 var current_path = fs.realpathSync('.');
 var config_file = current_path + '/config.json';
 
@@ -35,17 +46,6 @@ app.get('/get_repo_list', function(req, res) {
 
 io.on('connection', function(socket) {
     socket.on(channel, function(data) {
-        var d = new Date();
-        var dt = d.getFullYear().toString() + (d.getMonth() + 1) + d.getDate() + d.getHours() + d.getMinutes() + d.getSeconds();
-        var log_file = '/tmp/' + dt + 'merge.log';
-        var r = fs.existsSync(log_file);
-
-        if (!r) {
-            fs.appendFile(log_file, '');
-        }
-
-        var tail = new Tail(log_file);
-
         fs.readFile(config_file, "utf8", function(err, cfg) {
             var cli = eval('(' + cfg + ')').command + ' "' + data.repolist + '" ' + data.branch + ' log  > ' + log_file;
             console.log(cli);
