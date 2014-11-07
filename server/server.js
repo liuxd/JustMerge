@@ -8,7 +8,7 @@ var fs = require('fs');
 var Tail = require('tail').Tail;
 var child_process = require('child_process');
 var channel = 'cli';
-var port = 3000;
+var port = 80;
 
 // Set log file.
 var log_file = '/tmp/merge.log';
