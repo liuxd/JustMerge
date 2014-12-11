@@ -18,8 +18,6 @@ if (!r) {
     fs.appendFile(log_file, '');
 }
 
-var tail = new Tail(log_file);
-
 // Set config file.
 var current_path = fs.realpathSync('.');
 var config_file = current_path + '/config.json';
@@ -45,18 +43,31 @@ app.get('/get_repo_list', function(req, res) {
 });
 
 io.on('connection', function(socket) {
-    socket.on(channel, function(data) {
-        fs.readFile(config_file, "utf8", function(err, cfg) {
-            var cli = eval('(' + cfg + ')').command + ' "' + data.repolist + '" ' + data.branch + ' log  > ' + log_file;
-            console.log(cli);
-            child_process.exec(cli);
-        });
+    var d = new Date();
+    year = d.getFullYear();
+    mon = d.getMonth() + 1;
+    day = d.getDate();
+    hour = d.getHours();
+    min = d.getMinutes();
+    sec = d.getSeconds();
 
-        tail.on("line", function(data) {
-            var msg = data.toString('utf-8');
-            console.log(msg);
-            socket.emit(channel, {msg: msg});
-        });
+    log_file_path = log_file + year + mon + day + hour + min + sec;
+    child_process.exec('touch ' + log_file_path, function(error, stdout, stderr){
+        tail = new Tail(log_file_path);
+
+        socket.on(channel, function(data) {
+            fs.readFile(config_file, "utf8", function(err, cfg) {
+                var cli = eval('(' + cfg + ')').command + ' "' + data.repolist + '" ' + data.branch + ' log  > ' + log_file_path;
+                console.log(cli);
+                child_process.exec(cli);
+            });
+
+            tail.on("line", function(data) {
+                var msg = data.toString('utf-8');
+                console.log(msg);
+                socket.emit(channel, {msg: msg});
+            });
+        });   
     });
 });
 
