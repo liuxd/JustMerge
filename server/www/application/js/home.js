@@ -8,7 +8,7 @@
     });
 
     // Show repository list.
-    $.get('/get_repo_list', function(data, status) {
+    $.get('/list', function(data, status) {
         if (status === 'success') {
             var repos = data.split("\n");
             var repo_container = $('#repo_list');

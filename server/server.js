@@ -1,5 +1,6 @@
 #!/usr/bin/env node
 
+// Set requirements.
 var express = require('express');
 var app = express();
 var http = require('http').Server(app);
@@ -8,15 +9,10 @@ var fs = require('fs');
 var Tail = require('tail').Tail;
 var child_process = require('child_process');
 var channel = 'cli';
-var port = 80;
 
 // Set log file.
 var log_file = '/tmp/merge.log';
-var r = fs.existsSync(log_file);
-
-if (!r) {
-    fs.appendFile(log_file, '');
-}
+fs.existsSync(log_file) || fs.appendFile(log_file, '');
 
 // Set config file.
 var current_path = fs.realpathSync('.');
@@ -26,6 +22,10 @@ if (fs.existsSync('/tmp/jm.json')) {
     config_file = '/tmp/jm.json';
 }
 
+config_text = fs.readFileSync(config_file, 'utf8');
+config_json = eval('(' + config_text+ ')');
+
+// Set URL.
 app.use("/www", express.static(__dirname + '/www'));
 
 app.get('/', function(req, res) {
@@ -33,16 +33,13 @@ app.get('/', function(req, res) {
     res.sendFile(str + '/index.html');
 });
 
-app.get('/get_repo_list', function(req, res) {
-    fs.readFile(config_file, "utf8", function(err, data) {
-        var code_path = eval('(' + data + ')').code_path
-        child_process.exec('ls ' + code_path, function(err, stdout, stderr){
-            res.send(stdout);
-        });
+app.get('/list', function(req, res) {
+    child_process.exec('ls ' + config_json.code_path, function(err, stdout, stderr){
+        res.send(stdout);
     });
 });
 
-io.on('connection', function(socket) {
+function generate_log_file (log_file) {
     var d = new Date();
     year = d.getFullYear();
     mon = d.getMonth() + 1;
@@ -50,27 +47,32 @@ io.on('connection', function(socket) {
     hour = d.getHours();
     min = d.getMinutes();
     sec = d.getSeconds();
+    return log_file + year + mon + day + hour + min + sec;
+}
 
-    log_file_path = log_file + year + mon + day + hour + min + sec;
+// Set websocket.
+io.on('connection', function(socket) {
+    log_file_path = generate_log_file(log_file);
+
     child_process.exec('touch ' + log_file_path, function(error, stdout, stderr){
         tail = new Tail(log_file_path);
 
         socket.on(channel, function(data) {
-            fs.readFile(config_file, "utf8", function(err, cfg) {
-                var cli = eval('(' + cfg + ')').command + ' "' + data.repolist + '" ' + data.branch + ' log  > ' + log_file_path;
-                console.log(cli);
-                child_process.exec(cli);
-            });
+            var cli = config_json.command + ' "' + data.repolist + '" ' + data.branch + ' log  > ' + log_file_path;
+            console.log(cli);
+            child_process.exec(cli);
+            socket.emit(channel, {msg: 'Log File : ' + log_file_path});
 
             tail.on("line", function(data) {
                 var msg = data.toString('utf-8');
-                console.log(msg);
                 socket.emit(channel, {msg: msg});
             });
         });   
     });
 });
 
-http.listen(port, function() {
-    console.log('listening on *:' + port);
+http.listen(config_json.port, function() {
+    console.log('listening on *:' + config_json.port);
 });
+
+// end of this file.
