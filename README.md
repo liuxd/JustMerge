@@ -4,6 +4,7 @@
 
 + Merge multiple repositories in the same time.
 + Real-time output.
++ `Node.js` + `socket.io`
 
 ### Dependence
 
