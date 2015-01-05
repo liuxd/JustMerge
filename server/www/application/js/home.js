@@ -59,6 +59,20 @@
             classname = 'msg_success';
         }
 
+        var tmp = msg.msg.split(' ');
+
+        if (tmp.length > 0) {
+            var tmp2 = tmp[0].split('/');
+
+            if (tmp2.length > 0) {
+                if (tmp2.pop() === 'git') {
+                    tmp[0] = 'git';
+                    msg.msg = tmp.join(' ');
+                    classname = 'msg_git';
+                }
+            }
+        }
+
         $('<div class="' + classname + '" >' + msg.msg + '</div>').appendTo(terminal);
         terminal.scrollTop(terminal[0].scrollHeight);
     });
