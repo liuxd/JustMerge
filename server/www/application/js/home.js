@@ -24,6 +24,12 @@
 
     // Send command message.
     $('#merge').click(function() {
+        var r = confirm("Are you sure?\nMaybe it is a hotfix...")
+
+        if (!r) {
+            return r;
+        }
+        
         var repos = [];
         $("input[name='repo']:checked:checked").each(function() {
             repos.push($(this).val());
