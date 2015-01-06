@@ -53,22 +53,20 @@ function generate_log_file (log_file) {
 // Set websocket.
 io.on('connection', function(socket) {
     log_file_path = generate_log_file(log_file);
+    fs.openSync(log_file_path, 'w');
+    tail = new Tail(log_file_path);
 
-    child_process.exec('touch ' + log_file_path, function(error, stdout, stderr){
-        tail = new Tail(log_file_path);
+    socket.on(channel, function(data) {
+        var cli = config_json.command + ' "' + data.repolist + '" ' + data.branch + ' log  > ' + log_file_path;
+        console.log(cli);
+        child_process.exec(cli);
+        socket.emit(channel, {msg: 'Log File : ' + log_file_path});
 
-        socket.on(channel, function(data) {
-            var cli = config_json.command + ' "' + data.repolist + '" ' + data.branch + ' log  > ' + log_file_path;
-            console.log(cli);
-            child_process.exec(cli);
-            socket.emit(channel, {msg: 'Log File : ' + log_file_path});
-
-            tail.on("line", function(data) {
-                var msg = data.toString('utf-8');
-                socket.emit(channel, {msg: msg});
-            });
-        });   
-    });
+        tail.on("line", function(data) {
+            var msg = data.toString('utf-8');
+            socket.emit(channel, {msg: msg});
+        });
+    });   
 });
 
 http.listen(config_json.port, function() {
