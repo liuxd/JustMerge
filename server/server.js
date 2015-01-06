@@ -9,10 +9,7 @@ var fs = require('fs');
 var Tail = require('tail').Tail;
 var child_process = require('child_process');
 var channel = 'cli';
-
-// Set log file.
 var log_file = '/tmp/merge.log';
-fs.existsSync(log_file) || fs.appendFile(log_file, '');
 
 // Set config file.
 var current_path = fs.realpathSync('.');
@@ -29,8 +26,7 @@ config_json = eval('(' + config_text+ ')');
 app.use("/www", express.static(__dirname + '/www'));
 
 app.get('/', function(req, res) {
-    var str = fs.realpathSync('.');
-    res.sendFile(str + '/index.html');
+    res.sendFile(current_path + '/index.html');
 });
 
 app.get('/list', function(req, res) {
@@ -66,7 +62,7 @@ io.on('connection', function(socket) {
             var msg = data.toString('utf-8');
             socket.emit(channel, {msg: msg});
         });
-    });   
+    });
 });
 
 http.listen(config_json.port, function() {
