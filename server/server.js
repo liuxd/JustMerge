@@ -1,6 +1,7 @@
 #!/usr/bin/env node
 
 // Set requirements.
+
 var express = require('express');
 var app = express();
 var http = require('http').Server(app);
@@ -21,6 +22,9 @@ if (fs.existsSync('/tmp/jm.json')) {
 
 config_text = fs.readFileSync(config_file, 'utf8');
 config_json = eval('(' + config_text+ ')');
+
+// Save pid.
+fs.writeFileSync('/tmp/jm.pid', process.pid);
 
 // Set URL.
 app.use("/www", express.static(__dirname + '/www'));
