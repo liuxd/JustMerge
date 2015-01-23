@@ -137,7 +137,8 @@ fi
 _check_lock
 
 if [ ! "$1" ];then
-    _cecho 'Repository name is needed.' error
+    _cecho 'Pattern: merge.sh [repository list] [branch name]' error
+    _cecho 'Demo: merge.sh "app-hf-xf app-hf-esf" "develop"'
     exit $errcode_need_repo
 fi
 
