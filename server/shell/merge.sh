@@ -53,9 +53,9 @@ function _ear {
 # Merge target branch to master.
 # @param string the path of repository.
 # @param string the path of git.
-# @param string the branch name which will be merged.
+# @param string the tag name which will be merged.
 # Demo:
-#     _merge /home/www/code/hf-index/ /bin/git develop
+#     _merge /home/www/code/hf-index/ /bin/git v1.1
 function _merge {
     cd $1
     # Cleaning.
@@ -64,34 +64,19 @@ function _merge {
 
     # Chechout and update the branch which will be merged.
     _ear "$2 fetch origin"
-    _ear "$2 checkout $3"
-    _ear "$2 pull origin $3"
 
-    # Back to master
+    # Back to master.
     _ear "$2 checkout master"
     _ear "$2 pull origin master"
     _ear "$2 submodule update"
 
+    # Merge main repository.
     msg="merge $3"
     _cecho "$2 merge $3 --no-ff -m '$msg'" success
     $2 merge $3 --no-ff -m "'$msg'"
     result=$?
 
     if [ $result -eq 0 ];then
-        # Update submodules.
-        _cecho "$2 submodule | awk '{print \$2}'" success
-        submodules=`$2 submodule | awk '{print $2}'`
-
-        for submodule in $submodules
-        do
-            _cecho "Update Submodule: $submodule"
-            cd $1/$submodule
-            _ear "$2 checkout master"
-            _ear "$2 pull origin master"
-        done
-
-        cd $1
-        _ear "$2 commit -am update-submodule"
         _ear "$2 push origin master"
     else
         _cecho "Merging failed" error
@@ -137,8 +122,8 @@ fi
 _check_lock
 
 if [ ! "$1" ];then
-    _cecho 'Pattern: merge.sh [repository list] [branch name]' error
-    _cecho 'Demo: merge.sh "app-hf-xf app-hf-esf" "develop"'
+    _cecho 'Pattern: merge.sh [Repository list] [Tag name]' error
+    _cecho 'Demo: merge.sh "app-hf-xf app-hf-esf" "v1.1"'
     exit $errcode_need_repo
 fi
 
