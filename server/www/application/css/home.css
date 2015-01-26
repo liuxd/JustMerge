@@ -104,7 +104,7 @@ body {
     padding: 10px;
     -webkit-border-radius: 10px;
 }
-#merge, #branch {
+#merge, #tag {
     width: 85%;
     margin: 5px;
     float: left;

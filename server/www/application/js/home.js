@@ -24,6 +24,13 @@
 
     // Send command message.
     $('#merge').click(function() {
+        var tag = $('#tag').val();
+
+        if (!tag) {
+            alert("What's your tag?");
+            return false;
+        }
+        
         var r = confirm("Are you sure?\nMaybe it is a hotfix...")
 
         if (!r) {
@@ -37,8 +44,7 @@
 
         if (repos.length > 0) {
             var repolist = repos.join(' ');
-            var branch = $("#branch").val();
-            socket.emit(channel, {repolist: repolist, branch: branch});
+            socket.emit(channel, {repolist: repolist, tag: tag});
             $("#merge").prop("disabled", "disabled");
         } else {
             alert('Choose your repositories!');

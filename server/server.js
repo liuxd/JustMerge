@@ -57,7 +57,7 @@ io.on('connection', function(socket) {
     tail = new Tail(log_file_path);
 
     socket.on(channel, function(data) {
-        var cli = config_json.command + ' "' + data.repolist + '" ' + data.branch + ' log  > ' + log_file_path;
+        var cli = config_json.command + ' "' + data.repolist + '" ' + data.tag + ' log  > ' + log_file_path;
         console.log(cli);
         child_process.exec(cli);
         socket.emit(channel, {msg: 'Log File : ' + log_file_path});
