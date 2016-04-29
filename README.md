@@ -24,5 +24,5 @@ cd just-merge
 ./boss.sh start
 ```
 
-### Screen Shot
+### Demo
 ![merge demo](merge.gif)
