@@ -12,15 +12,15 @@
 ### Installation
 
 ```
-git clone git@github.com:liuxd/just-merge.git
-cd just-merge
+git clone git@github.com:liuxd/JustMerge.git
+cd JustMerge
 npm install
 ```
 
 ### Let's start!
 
 ```
-cd just-merge
+cd JustMerge
 ./boss.sh start
 ```
 
