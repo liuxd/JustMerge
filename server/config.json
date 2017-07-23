@@ -1,5 +1,5 @@
 {
     "port": 3000,
-    "command": "/Users/liuxd/Documents/github.com/just-merge/server/shell/merge.sh",
-    "code_path": "/Users/liuxd/Documents/git.ipo.com"
+    "command": "/Users/allen/Git/Github/JustMerge/server/shell/merge.sh",
+    "code_path": "/Users/allen/Git/Github"
 }
